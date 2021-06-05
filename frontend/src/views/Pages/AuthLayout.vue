@@ -1,0 +1,159 @@
+<template>
+  <div class="main-content bg-default">
+    <base-nav
+      v-model="showMenu"
+      :transparent="true"
+      menu-classes="justify-content-end"
+      class="navbar-horizontal navbar-main navbar-top navbar-dark"
+      expand="lg"
+    >
+      <div slot="brand" class="navbar-wrapper">
+        <b-navbar-brand href="/">
+          <img src="/img/brand/white.png">
+        </b-navbar-brand>
+      </div>
+
+     <template v-if="type !== 'subdomain'">
+       <div class="navbar-collapse-header">
+         <b-row>
+           <b-col cols="6" class="collapse-brand">
+             <inertia-link href="/">
+               <img src="/img/brand/green.png">
+             </inertia-link>
+           </b-col>
+           <b-col cols="6" class="collapse-close">
+             <button type="button" class="navbar-toggler" @click="showMenu = false">
+               <span></span>
+               <span></span>
+             </button>
+           </b-col>
+         </b-row>
+       </div>
+       <b-navbar-nav  class="align-items-lg-center ml-lg-auto">
+           <b-nav-item>
+             <inertia-link :href="route('admin.index')" class="text-white">
+               <i class="ni ni-planet"></i>
+               <span class="nav-link-inner--text">Admin Dashboard</span>
+             </inertia-link>
+           </b-nav-item>
+           <b-nav-item>
+             <inertia-link :href="route('register.index')" class="text-white">
+               <i class="ni ni-circle-08"></i>
+               <span class="nav-link-inner--text">Register</span>
+             </inertia-link>
+           </b-nav-item>
+           <b-nav-item>
+             <inertia-link :href="route('login.index')" class="text-white">
+               <i class="ni ni-key-25"></i>
+               <span class="nav-link-inner--text">Login</span>
+             </inertia-link>
+           </b-nav-item>
+           <b-nav-item>
+             <inertia-link :href="route('customers.register.index')" class="text-white">
+               <i class="ni ni-single-02"></i>
+               <span class="nav-link-inner--text">Customer Registration</span>
+             </inertia-link>
+           </b-nav-item>
+       </b-navbar-nav>
+     </template>
+    </base-nav>
+
+    <div class="main-content">
+      <!-- Header -->
+      <div class="header bg-gradient-success py-7 py-lg-8 pt-lg-9">
+        <div class="separator separator-bottom separator-skew zindex-100">
+          <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
+               xmlns="http://www.w3.org/2000/svg">
+            <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+          </svg>
+        </div>
+      </div>
+      <slot />
+    </div>
+
+    <footer class="py-5" id="footer-main">
+      <b-container >
+        <b-row align-v="center" class="justify-content-xl-between">
+          <b-col xl="6">
+            <div class="copyright text-center text-xl-left text-muted">
+              © {{year}} <a href="https://vcrewsys.net" class="font-weight-bold ml-1" target="_blank">Yash Govekar</a>
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
+    </footer>
+  </div>
+</template>
+<script>
+  import { BaseNav } from '@/components';
+  import { ZoomCenterTransition } from 'vue2-transitions';
+
+  export default {
+    components: {
+      BaseNav,
+      ZoomCenterTransition
+    },
+    props: {
+      type: String
+    },
+    data() {
+      return {
+        showMenu: false,
+        menuTransitionDuration: 250,
+        pageTransitionDuration: 200,
+        year: new Date().getFullYear(),
+        pageClass: 'login-page'
+      };
+    },
+    computed: {
+      title() {
+        return `${this.$route.name} Page`;
+      }
+    },
+    methods: {
+      closeMenu() {
+        document.body.classList.remove('nav-open');
+        this.showMenu = false;
+      },
+      setBackgroundColor() {
+        document.body.classList.add('bg-default');
+      },
+      removeBackgroundColor() {
+        document.body.classList.remove('bg-default');
+      },
+    },
+    beforeDestroy() {
+      this.removeBackgroundColor();
+    },
+  };
+</script>
+<style lang="scss">
+  $scaleSize: 0.8;
+  @keyframes zoomIn8 {
+    from {
+      opacity: 0;
+      transform: scale3d($scaleSize, $scaleSize, $scaleSize);
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .main-content .zoomIn {
+    animation-name: zoomIn8;
+  }
+
+  @keyframes zoomOut8 {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      transform: scale3d($scaleSize, $scaleSize, $scaleSize);
+    }
+  }
+
+  .main-content .zoomOut {
+    animation-name: zoomOut8;
+  }
+</style>

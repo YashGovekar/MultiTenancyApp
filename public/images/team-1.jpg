@@ -1,0 +1,23 @@
+var render, staticRenderFns
+var script = {}
+
+
+/* normalize component */
+import normalizer from "!../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js"
+var component = normalizer(
+  script,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* custom blocks */
+import block0 from "./team-1.jpg?vue&type=custom&index=0&blockType=a&%16%EF%BF%BD%1D%EF%BF%BD%EF%BF%BD%17%EF%BF%BDi%2C%1Dr%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%5En%EF%BF%BDm%EF%BF%BDez%EF%BF%BD%5E%EF%BF%BD%EF%BF%BD%40%EF%BF%BD%EF%BF%BDz%EF%BF%BD%EF%BF%BD=true"
+if (typeof block0 === 'function') block0(component)
+
+component.options.__file = "frontend/src/img/theme/team-1.jpg"
+export default component.exports
