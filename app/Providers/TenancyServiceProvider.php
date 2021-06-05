@@ -28,6 +28,11 @@ class TenancyServiceProvider extends ServiceProvider
             $customer = DB::connection('mysql')->table('customers')
                 ->where('subdomain', $subdomain)
                 ->first();
+            if (! $customer) {
+                Config::set('database.default', 'mysql');
+
+                return;
+            }
 
             Config::set('database.connections.subdomain.database', Crypt::decrypt($customer->db_name));
             Config::set('database.connections.subdomain.username', Crypt::decrypt($customer->db_username));

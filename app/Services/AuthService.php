@@ -75,10 +75,12 @@ class AuthService
     {
         $admin = $this->adminRepo->findByField('email', $data['email'])->first();
 
-        if (Hash::check($data['password'], $admin->password)) {
-            Auth::guard('subdomain')->login($admin, true);
+        if ($admin) {
+            if (Hash::check($data['password'], $admin->password)) {
+                Auth::guard('subdomain')->login($admin, true);
 
-            return true;
+                return true;
+            }
         }
 
         return false;
