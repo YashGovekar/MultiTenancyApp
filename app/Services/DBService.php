@@ -49,8 +49,9 @@ class DBService
 
         $tables_to_exclude = TableToExclude::all()->pluck('name')->toArray();
 
+        $property = 'Tables_in_' . config('database.connections.'.config('database.default'))['database'];
         foreach ($tables as $table) {
-            $table = $table->Tables_in_mytask;
+            $table = $table->{$property};
             if (! in_array($table, $tables_to_exclude, true)) {
                 $show_table_query = 'SHOW CREATE TABLE '.$table;
                 $show_table_result = DB::select(DB::raw($show_table_query));
